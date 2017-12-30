@@ -28,112 +28,58 @@ void MaxPrime(int &m) {
 	}
 	m = t1;
 }
-template<class T>
+template<class T,class E>
 struct Node{
 	T *pointer;			          //hash存放链表指针
-	string  data[2];           //hash表存放数据,顶点名称或线
+	E  data[2];           //hash表存放数据,顶点名称或线
 	int sign;                //hash表位置是否为空
 	Node() { 
 		sign = 0;
 		pointer = NULL; 
 	}
 };
-template<class T>
+template<class T, class E>
 class HashTable
 {
 public:
 	HashTable();
 	~HashTable() {}
-	//void input();									//读入词典
-	T* search(int nCount, ...);						//边的查找和顶点
-		void add(T *p, int ncount, ...);
-	//void remove(string da1,...);
+	T* search(int n,E data, ...);						//边的查找和顶点
+	void add( int n,T *p,E data, ...);
+	void remove(int n,E data,...);
+	int getPos(E data);
 private:
-	Node<T> *ht;									//hash表
-	int divitor,num;                        //num为可变参数个数
+	Node<T,E> *ht;									//hash表
+	int divitor;              
 	int CurrentSize, TableSize;
 	//int GetPos(string da1, ...);		   //hash地址生成函数
 };
-template<class T>
-HashTable<T>::HashTable()
+template<class T, class E>
+HashTable<T,E>::HashTable()
 {
 	int x, y;
 	MaxPrime(x);						//得到100之内最大的素数
 	divitor = x;
 	TableSize = DefaultSize, CurrentSize = 0;
-	ht = new Node<T>[TableSize];
+	ht = new Node<T,E>[TableSize];
 }
-template<class T>
-T* HashTable<T>::search(int nCount, ...)//搜索，返回顶点的位置,
-{
-	string str;
-	double sum = 0;
-	string tem[2];
-	int start = 0, pos = 0,i=0,j=0,t=1;
-	va_list vl = 0;
-	va_start(vl, nCount);
-	for (int i = 0; i<nCount; ++i)
-	{
-		char* p = va_arg(vl, char*);
-		cout << p << endl;
-		tem[i] = p;
-		str += p;
-	}
-	for( i = 0; i < str.size(); i++)
-	{
-		sum += str[i] * pow(3, str[i] - 'A');
-	}
-	start = pos = fmod(sum, divitor);
-	for (i = 0; i<nCount; ++i)
-	if (ht[pos].data[i] != tem[i])		//判断是否相等
-	{							
-		t = 0;
-	}
-	if(t==0)
-	{
-		if (ht[pos].sign == 1)
-			while (j < 5)
-			{
-				if (pos == start)
-				{
-					cout << "不存在" << endl;
-					return false;
-				}
-				pos++;
-				j++;
-				for (i = 0; i < num; i++)
-					if (ht[pos].data[i] == tem[i])
-						return ht[pos].pointer;
-			}
-		else
-		{
-			cout << "不存在" << endl;
-			return NULL;
-		}
-		}
-	else
-	{
-		cout << "cc" << endl;
-		return ht[pos].pointer;
-	}
-}
-template<class T>
-void HashTable<T>::add(T *point, int nCount, ...) {
+template<class T, class E>
+void HashTable<T,E>::add( int n,T *point,E data, ...) {
 	double sum=0;
 	int start = 0, pos = 0,y=0,t=0,i=0;
-	string str;
-	string tem[2];
-	//= new string[nCount];
-	num = nCount;
-	va_list vl = 0;
-	va_start(vl, nCount);
-	for (int i = 0; i<nCount; ++i)
+	E str;
+	E tem[2];
+	str=tem[0] = data;
+	va_list ap = 0;
+	va_start(ap,data);
+	for (i = 0; i<n; ++i)
 	{
-		string p;
-		p = va_arg(vl, char *);
-		//cout <<p<< endl;
-		str += p;
+		char *p;
+		va_arg(ap, char *);
+		tem[1] = ap;
+		str += ap;
 	}
+	va_end(ap);
 	for (i = 0; i < str.size(); i++)
 	{
 		sum += str[i]*pow(3,str[i]-'A');
@@ -160,7 +106,7 @@ void HashTable<T>::add(T *point, int nCount, ...) {
 		}
 		if (t==1)
 		{
-			for(i=0;i<nCount;i++)
+			for(i=0;i<n+1;i++)
 			ht[pos].data[i] = tem[i];
 			ht[pos].pointer = point;
 			ht[pos].sign = 1;
@@ -169,63 +115,114 @@ void HashTable<T>::add(T *point, int nCount, ...) {
 		else {
 			cout << "hash表长度不足" << endl;
 		}
-	cout << "发生冲突次数" << y << endl;
-
 }
-/*template<class T, class E>
-void HashTable<T,E>::input(T Vertex1) {
-	int i = 0, vertexnum = 0, start = 0, y = 0;
-	bool t = false;
-	vertexnum = Q.getvertices();
-	Node<T> *p = Q.gethead();
-	p = p->next;
-	while (vertexnum--) {
-		GetPosAndTest(p->data, i);
-		start = i;
-		if (ht[i].sign == 0)
-		{
-			t = true;
-		}
-		else {
-			while (ht[i].sign != 0)
-			{
-				y++;
-				i = (i + 1) % TableSize;
-				if (i == start)
-				{
-					cout << "表满" << endl;
-					break;
-				}
-			}
-			if (ht[i].sign == 0)
-				t = true;
-		}
-		if (t)
-		{
-			ht[i].data = p->data;
-			ht[i].sign = 1;
-			CurrentSize++;
-		}
-		else {
-			cout << "hash表长度不足" << endl;
-		}
-		p = p->next;
-	}
-	cout << "发生冲突次数" << y << endl;
-
-}
-template<class T>
-void HashTable<T,E>::output() {
-	int i = 0, t = 0;
-	while (i<TableSize)
+template<class T,class E>
+T* HashTable<T,E>::search(int n,E data, ...)//搜索，返回顶点的指针位置,
+{
+	double sum = 0;
+	int start = 0, pos = 0, y = 0, t = 0, i = 0;
+	E str;
+	E tem[2];
+	str = tem[0] = data;
+	va_list ap = 0;
+	va_start(ap, data);
+	for (i = 0; i<n; ++i)
 	{
-		if (ht[i].sign == 1)
-		{
-			cout << ht[i].data << endl;
-			t++;
-			if (t == CurrentSize)
-				break;
-		}i++;
+		char *p;
+		va_arg(ap, char *);
+		tem[1] = ap;
+		str += ap;
 	}
-*/
+	va_end(ap);
+	for (i = 0; i < str.size(); i++)
+	{
+		sum += str[i] * pow(3, str[i] - 'A');
+
+	}
+	start = pos = fmod(sum, divitor);
+	for (i = 0; i<n+1; ++i)
+		if (ht[pos].data[i] != tem[i])		//判断是否相等
+		{
+			t = 0;
+		}
+	if (t == 0)
+	{
+		if (ht[pos].sign == 1)
+			while (j < 5)
+			{
+				if (pos == start)
+				{
+					cout << "不存在" << endl;
+					return false;
+				}
+				pos++;
+				j++;
+				for (i = 0; i < n+1; i++)
+					if (ht[pos].data[i] == tem[i])
+					{
+						cout << "查找成功" << endl;
+						return ht[pos].pointer;
+					}
+			}
+		else
+		{
+			cout << "不存在" << endl;
+			return NULL;
+		}
+	}
+	else
+	{
+		cout << "查找成功" << endl;
+		return ht[pos].pointer;
+	}
+}
+template<class T, class E>
+void HashTable<T, E>::remove(int n, E data, ...) {
+	double sum = 0;
+	int start = 0, pos = 0, y = 0, t = 0, i = 0;
+	E str;
+	E tem[2];
+	str = tem[0] = data;
+	num = n;
+	va_list ap = 0;
+	va_start(ap, data);
+	for (i = 0; i < n; ++i)
+	{
+		char *p;
+		va_arg(ap, char *);
+		tem[1] = ap;
+		str += ap;
+	}
+	va_end(ap);
+	start = pos = fmod(sum, divitor);
+	for (i = 0; i < n+1; ++i)
+		if (ht[pos].data[i] != tem[i])		//判断是否相等
+		{
+			t = 0;
+		}
+	if (t == 0)
+	{
+		if (ht[pos].sign == 1)
+			while (j < 5)
+			{
+				if (pos == start)
+				{
+					cout << "不存在" << endl;
+					return false;
+				}
+				pos++;
+				j++;
+				for (i = 0; i < n+1; i++)
+					if (ht[pos].data[i] == tem[i])
+					{
+						t = 1;
+					}
+			}
+		else
+		{
+			ht[pos].sign = 0;							//将标志位置为0
+			CurrentSize--;
+		}
+	}
+}
 #endif // !_HASHTABLE_
