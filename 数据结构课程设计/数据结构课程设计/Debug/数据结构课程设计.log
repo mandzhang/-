@@ -1,0 +1,34 @@
+﻿  test.cpp
+d:\my code\c++\数据结构课程设计\数据结构课程设计\hashtable.h(60): warning C4101: “y”: 未引用的局部变量
+  d:\my code\c++\数据结构课程设计\数据结构课程设计\hashtable.h(59): note: 编译 类 模板 成员函数 "HashTable<Vertex<T>>::HashTable(void)" 时
+          with
+          [
+              T=int
+          ]
+  d:\my code\c++\数据结构课程设计\数据结构课程设计\graphinc.h(34): note: 参见对正在编译的函数 模板 实例化“HashTable<Vertex<T>>::HashTable(void)”的引用
+          with
+          [
+              T=int
+          ]
+  d:\my code\c++\数据结构课程设计\数据结构课程设计\graphinc.h(75): note: 参见对正在编译的 类 模板 实例化 "HashTable<Vertex<T>>" 的引用
+          with
+          [
+              T=int
+          ]
+  d:\my code\c++\数据结构课程设计\数据结构课程设计\test.cpp(3): note: 参见对正在编译的 类 模板 实例化 "graphinc<int>" 的引用
+d:\my code\c++\数据结构课程设计\数据结构课程设计\hashtable.h(137): warning C4018: “<”: 有符号/无符号不匹配
+  d:\my code\c++\数据结构课程设计\数据结构课程设计\hashtable.h(121): note: 编译 类 模板 成员函数 "void HashTable<Vertex<T>>::add(Vertex<T> *,int,...)" 时
+          with
+          [
+              T=int
+          ]
+  d:\my code\c++\数据结构课程设计\数据结构课程设计\graphinc.h(86): note: 参见对正在编译的函数 模板 实例化“void HashTable<Vertex<T>>::add(Vertex<T> *,int,...)”的引用
+          with
+          [
+              T=int
+          ]
+  d:\my code\c++\数据结构课程设计\数据结构课程设计\graphinc.h(79): note: 编译 类 模板 成员函数 "void graphinc<int>::input(void)" 时
+  d:\my code\c++\数据结构课程设计\数据结构课程设计\test.cpp(4): note: 参见对正在编译的函数 模板 实例化“void graphinc<int>::input(void)”的引用
+d:\my code\c++\数据结构课程设计\数据结构课程设计\hashtable.h(142): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+  数据结构课程设计.vcxproj -> D:\my code\c++\数据结构课程设计\Debug\数据结构课程设计.exe
+  数据结构课程设计.vcxproj -> D:\my code\c++\数据结构课程设计\Debug\数据结构课程设计.pdb (Partial PDB)
